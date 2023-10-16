@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 
-export const WorkoutContacts = createContext({ workouts: null }/* chatGPT change { workouts: null }*/);
+export const WorkoutContext = createContext({ workouts: null }/* chatGPT change { workouts: null }*/);
 
 export const workoutsReducer = (state, action) => {
   switch (action.type) {
@@ -12,6 +12,12 @@ export const workoutsReducer = (state, action) => {
       return {
         workouts: [action.payload, ...state.workouts],
       };
+    case 'DELETE_WORKOUT':
+      return {
+         workouts: state.workouts.filter((w)=> w._id !== action.payload._id
+
+         )
+      }
     default:
       return state;
   }
@@ -23,9 +29,9 @@ export const WorkoutContextProvider = ({ children }) => {
   });
 
   return (
-    <WorkoutContacts.Provider value={{ ...state, dispatch }}>
+    <WorkoutContext.Provider value={{ ...state, dispatch }}>
       {children}
-    </WorkoutContacts.Provider>
+    </WorkoutContext.Provider>
   );
 };
 export default WorkoutContextProvider;
